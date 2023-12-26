@@ -3,7 +3,7 @@ const swaggerTags = {
     dog: '狗',
     car: '车',
     sun: '🌞',
-    moon: '🌝'
+    moon: '🌝',
 };
 
 export default swaggerTags;

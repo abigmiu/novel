@@ -15,11 +15,11 @@ async function initSwagger(app: NestExpressApplication, appConfig: ConfigService
 
     const config = documentBuilder.build();
     const document = SwaggerModule.createDocument(app, config);
-    const path = appConfig.get<string>('swagger.path')
+    const path = appConfig.get<string>('swagger.path');
 
     SwaggerModule.setup(path, app, document, {
         explorer: true,
-        jsonDocumentUrl: `${path}/json`
+        jsonDocumentUrl: `${path}/json`,
     });
 }
 
@@ -37,9 +37,9 @@ async function bootstrap() {
     initSwagger(app, appConfig);
     await app.listen(port, '0.0.0.0', async () => {
         const url = await app.getUrl();
-        console.log(`app running in ${url}${globalApiPrefix}`)
-        const swaggerPath = appConfig.get<string>('swagger.path')
-        console.log(`swagger address is ${url}${swaggerPath}`)
+        console.log(`app running in ${url}${globalApiPrefix}`);
+        const swaggerPath = appConfig.get<string>('swagger.path');
+        console.log(`swagger address is ${url}${swaggerPath}`);
     });
   
 

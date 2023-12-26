@@ -9,7 +9,7 @@ import appConfig from './config/app';
         ConfigModule.forRoot({
             isGlobal: true,
             load: [appConfig],
-        })
+        }),
     ],
     controllers: [AppController],
     providers: [AppService],
