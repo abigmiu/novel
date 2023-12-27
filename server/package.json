@@ -6,6 +6,7 @@
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
+        "compodoc": "compodoc -p tsconfig.json -s -o -c .compodoc.json",
         "build": "nest build",
         "start": "nest start",
         "start:dev": "nest start --watch",
@@ -28,6 +29,7 @@
         "rxjs": "^7.8.1"
     },
     "devDependencies": {
+        "@compodoc/compodoc": "^1.1.23",
         "@nestjs/cli": "^10.0.0",
         "@nestjs/schematics": "^10.0.0",
         "@nestjs/testing": "^10.0.0",
