@@ -4,12 +4,14 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import appConfig from './config/app';
 import typeOrmConfig from './config/typeorm';
-import { ClsModule } from 'nestjs-cls';
+import { ClsModule, ClsService } from 'nestjs-cls';
 import { WinstonModule } from 'nest-winston';
 import { v4 as uuidV4 } from 'uuid';
 import { AppLoggerService } from './logger/appLogger.service';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseLogger } from './logger/database.logger';
+import { UserEntity } from './entities/user.entity';
 
 @Module({
     imports: [
@@ -36,7 +38,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
                 }),
             ],
         }),
-        TypeOrmModule.forRoot(typeOrmConfig),
+        TypeOrmModule.forRootAsync({
+            imports: [ClsModule],
+            inject: [ClsService],
+            useFactory(clsService: ClsService) {
+                return {
+                    ...typeOrmConfig,
+                    logger: new DatabaseLogger(clsService),
+                }
+            }
+        }),
+        TypeOrmModule.forFeature([UserEntity])
     ],
     controllers: [AppController],
     providers: [AppService, AppLoggerService],
