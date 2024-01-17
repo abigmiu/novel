@@ -2,15 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import swaggerTags from './constant/swagger/tags';
+import SWAGGER_TAGS from './constant/swagger/tags';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
+import { AppHttpException } from './filter/httpException.filter';
 
 async function initSwagger(app: NestExpressApplication, appConfig: ConfigService) {
     const documentBuilder = new DocumentBuilder()
         .setTitle(appConfig.get<string>('swagger.title'))
         .setVersion(appConfig.get<string>('swagger.version'));
 
-    const tagValues = Object.values(swaggerTags);
+    const tagValues = Object.values(SWAGGER_TAGS);
     tagValues.forEach((tag) => documentBuilder.addTag(tag));
 
     const config = documentBuilder.build();
@@ -33,6 +35,12 @@ async function bootstrap() {
     const globalApiPrefix = appConfig.get<string>('globalApiPrefix');
 
     app.setGlobalPrefix(globalApiPrefix);
+
+    app.useGlobalFilters(new AppHttpException());
+    app.useGlobalPipes(new ValidationPipe({
+        transform: true,
+    }));
+    
     
     initSwagger(app, appConfig);
     await app.listen(port, '0.0.0.0', async () => {
