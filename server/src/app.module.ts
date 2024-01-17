@@ -12,6 +12,8 @@ import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseLogger } from './logger/database.logger';
 import { UserEntity } from './entities/user.entity';
+import { ResponseTransformInterceptor } from './interceptor/responseTransform.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
     imports: [
@@ -51,6 +53,13 @@ import { UserEntity } from './entities/user.entity';
         TypeOrmModule.forFeature([UserEntity])
     ],
     controllers: [AppController],
-    providers: [AppService, AppLoggerService],
+    providers: [
+        AppService,
+        AppLoggerService,
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ResponseTransformInterceptor,
+        }
+    ],
 })
 export class AppModule { }

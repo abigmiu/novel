@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, HttpCode, Inject, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AppLoggerService } from './logger/appLogger.service';
 
@@ -13,5 +13,10 @@ export class AppController {
     getHello(): string {
         this.appLogger.debug('getHello Controller');
         return this.appService.getHello();
+    }
+
+    @Post('testPost')
+    postTest(): string {
+        return '13'
     }
 }
