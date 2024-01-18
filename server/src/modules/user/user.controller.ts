@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, ValidationPipe } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import SWAGGER_TAGS from "src/constant/swagger/tags";
 import { CreateUserDto } from "./dto/createUser.dto";

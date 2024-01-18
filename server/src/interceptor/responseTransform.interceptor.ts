@@ -28,7 +28,7 @@ export class ResponseTransformInterceptor implements NestInterceptor {
             .pipe(
                 map(data => {
                     const response: IResponse = {
-                        data,
+                        data: data || null,
                         code: 0,
                         message: 'success'
                     }

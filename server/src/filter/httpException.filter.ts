@@ -8,11 +8,16 @@ export class AppHttpException implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
 
-        let message = exception.message;
+        const statusCode = exception.getStatus();
+        const exceptionMessages = (exception.getResponse() as { message: string[] }).message;
+        let message: string | string[] = exception.message || '接口错误';
+        if (exceptionMessages?.length) {
+            message = exceptionMessages;
+        }
 
         
         const responseBody: IResponse = {
-            code: 400,
+            code: statusCode || 400,
             message: message,
             data: null,
         }
