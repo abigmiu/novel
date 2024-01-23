@@ -4,7 +4,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import SWAGGER_TAGS from './constant/swagger/tags';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
 import { AppHttpException } from './filter/httpException.filter';
 
 async function initSwagger(app: NestExpressApplication, appConfig: ConfigService) {
@@ -37,10 +36,6 @@ async function bootstrap() {
     app.setGlobalPrefix(globalApiPrefix);
 
     app.useGlobalFilters(new AppHttpException());
-    app.useGlobalPipes(new ValidationPipe({
-        transform: true,
-    }));
-    
     
     initSwagger(app, appConfig);
     await app.listen(port, '0.0.0.0', async () => {

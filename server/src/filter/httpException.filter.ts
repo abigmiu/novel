@@ -10,11 +10,7 @@ export class AppHttpException implements ExceptionFilter {
 
         const statusCode = exception.getStatus();
         const exceptionMessages = (exception.getResponse() as { message: string[] }).message;
-        let message: string | string[] = exception.message || '接口错误';
-        if (exceptionMessages?.length) {
-            message = exceptionMessages;
-        }
-
+        let message: string = exception.message || '服务错误';
         
         const responseBody: IResponse = {
             code: statusCode || 400,

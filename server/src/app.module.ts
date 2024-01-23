@@ -14,6 +14,7 @@ import { DatabaseLogger } from './logger/database.logger';
 import { UserEntity } from './entities/user.entity';
 import { ResponseTransformInterceptor } from './interceptor/responseTransform.interceptor';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { AppValidationPipe } from 'src/pipe/validate.pipe';
 import modules from './modules';
 
 @Module({
@@ -61,6 +62,10 @@ import modules from './modules';
         {
             provide: APP_INTERCEPTOR,
             useClass: ResponseTransformInterceptor,
+        },
+        {
+            provide: APP_PIPE,
+            useClass: AppValidationPipe
         },
     ],
 })
