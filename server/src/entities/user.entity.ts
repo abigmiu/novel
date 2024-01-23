@@ -1,15 +1,10 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Exclude } from 'class-transformer'
+import { CreateAndUpdateEntity } from "./extends/createAndUpdate.entity";
 @Entity('user')
-export class UserEntity {
+export class UserEntity extends CreateAndUpdateEntity {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @CreateDateColumn({ name: 'create_at', type: 'timestamp' })
-    createAt: number;
-
-    @UpdateDateColumn({ name: 'update_at', type: 'timestamp' })
-    updateAt: number;
 
     @Column({ name: 'nick_name', length: 25, comment: '昵称，最多25个字' })
     nickname: string;
