@@ -4,11 +4,25 @@ import { UserEntity } from 'src/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { EXCEPTION_USER_NOT_FOUND } from 'src/constant/exception/user';
 
 @Injectable()
 export class UserService {
     @InjectRepository(UserEntity)
     private userRepo: Repository<UserEntity>;
+
+    async getUser(userId: number) {
+        const foundUser = await this.userRepo.findOne({
+            where: { 
+                id: userId,
+            }
+        })
+        
+        if (!foundUser) {
+            throw new BadRequestException(EXCEPTION_USER_NOT_FOUND);
+        }
+        return foundUser;
+    }
 
     async createUser(createUserDto: CreateUserDto) {
         const user = new UserEntity();
@@ -35,11 +49,14 @@ export class UserService {
         });
 
         if (!foundUser) {
-            throw new BadRequestException('用户不存在');
+            throw new BadRequestException(EXCEPTION_USER_NOT_FOUND);
         }
-        const { nickname } = updateUserDto;
+        const { nickname, avatar } = updateUserDto;
         if (nickname) {
             foundUser.nickname = nickname;
+        }
+        if (avatar) {
+            foundUser.avatar = avatar;
         }
 
         await this.userRepo.save(foundUser);
