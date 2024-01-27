@@ -5,7 +5,7 @@ import { IAccessTokenParams } from "src/types/auth";
 import { IUserIdDecorator } from "src/types/decorator";
 
 export const UserId = createParamDecorator(
-    ({ throwError = true }: IUserIdDecorator, ctx: ExecutionContext) => {
+    ({ throwError } : IUserIdDecorator = {throwError: true}, ctx: ExecutionContext) => {
         const request = ctx.switchToHttp().getRequest<Request>();
 
         const userId = (request.user as IAccessTokenParams)?.userId;

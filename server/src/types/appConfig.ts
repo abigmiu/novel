@@ -21,5 +21,6 @@ export interface IAppConfig {
         refreshTokenSecret: JwtModuleOptions['secret'],
         accessTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn'],
         refreshTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn']
-    }
+    },
+    passwordSlat: number;
 }

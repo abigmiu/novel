@@ -16,7 +16,8 @@ const appConfig: IAppConfig = {
         refreshTokenSecret: '123456789',
         accessTokenExpiresIn: '30m',
         refreshTokenExpiresIn: '7d'
-    }
+    },
+    passwordSlat: 10,
 };
 
 const beLoadConfig = () => appConfig;

@@ -7,6 +7,7 @@ import { UpdateUserDto, UpdateUserParamsDto } from './dto/updateUser.dto';
 import { FindUserParamsDto } from './dto/findUser.dto';
 import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
 import { PublicApi } from 'src/decorator/pulic.decorator';
+import { UserId } from 'src/decorator/auth.decorator';
 
 @ApiTags(SWAGGER_TAGS.USER)
 @ApiBearerAuth()
@@ -16,9 +17,8 @@ export class UserController {
     private userService: UserService;
 
     @ApiOperation({ summary: '获取用户详情' })
-    @Get(':userId')
-    findUser(@Param() params: FindUserParamsDto) {
-        return this.userService.getUser(params.userId);
+    findUser(@UserId() userId: number,) {
+        return this.userService.getUser(userId);
     }
 
     @ApiOperation({ summary: '创建用户' })
@@ -29,9 +29,9 @@ export class UserController {
     }
 
     @ApiOperation({ summary: '更新用户资料' })
-    @Put(':id')
-    updateUser(@Param() params: UpdateUserParamsDto, @Body() updateUserDto: UpdateUserDto) {
-        return this.userService.updateUser(params.id, updateUserDto)
+    @Put()
+    updateUser(@UserId() userId: number, @Body() updateUserDto: UpdateUserDto) {
+        return this.userService.updateUser(userId, updateUserDto)
     }
 
     @ApiOperation({ summary: '更换邮箱 - 旧邮箱申请更换' })

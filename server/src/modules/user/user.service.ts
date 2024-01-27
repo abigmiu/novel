@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { EXCEPTION_USER_NOT_FOUND } from 'src/constant/exception/user';
 import { AuthService } from '../auth/auth.service';
 
+
 @Injectable()
 export class UserService {
     @InjectRepository(UserEntity)
@@ -14,6 +15,7 @@ export class UserService {
 
     @Inject()
     authService: AuthService
+
 
     async getUser(userId: number) {
         const foundUser = await this.userRepo.findOne({
@@ -73,4 +75,6 @@ export class UserService {
 
         await this.userRepo.save(foundUser);
     }
+
+  
 }
