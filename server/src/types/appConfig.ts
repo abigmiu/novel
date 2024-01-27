@@ -17,7 +17,8 @@ export interface IAppConfig {
     },
     jwt: {
         signOptions: JwtModuleOptions['signOptions'],
-        secret: JwtModuleOptions['secret'],
+        accessTokenSecret: JwtModuleOptions['secret'],
+        refreshTokenSecret: JwtModuleOptions['secret'],
         accessTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn'],
         refreshTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn']
     }

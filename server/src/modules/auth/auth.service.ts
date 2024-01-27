@@ -1,7 +1,9 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { IAccessTokenParams, IRefreshTokenParams } from "src/types/auth";
+import { IAccessTokenParams, IRefreshToken, IRefreshTokenParams, ITokenResponse } from "src/types/auth";
+import { RefreshTokenDto } from "./dto/token.dto";
+import { AUTH_INVALID } from "src/constant/exception/auth";
 
 @Injectable()
 export class AuthService {
@@ -13,13 +15,33 @@ export class AuthService {
 
     getAccessToken(data: IAccessTokenParams) {
         return this.jwtService.sign(data, {
-            secret: this.configService.get('jwt.accessTokenExpiresIn')
+            expiresIn: this.configService.get('jwt.accessTokenExpiresIn'),
+            secret: this.configService.get('jwt.accessTokenSecret')
         })
     }
 
     getRefreshToken(data: IRefreshTokenParams) {
         return this.jwtService.sign(data, {
-            secret: this.configService.get('jwt.refreshTokenExpiresIn')
+            expiresIn: this.configService.get('jwt.refreshTokenExpiresIn'),
+            secret: this.configService.get('jwt.refreshTokenSecret')
         })
+    }
+
+    refreshToken(data: RefreshTokenDto) {
+        try {
+            const effectiveData = this.jwtService.verify(data.accessToken, {
+                secret: this.configService.get('jwt.refreshTokenSecret')
+            })
+    
+            const response: ITokenResponse = {
+                accessToken: this.getRefreshToken({ userId: effectiveData.userId }),
+                refreshToken: this.getRefreshToken({ userId: effectiveData.userId }),
+            }
+    
+            return response;
+        } catch {
+            throw new UnauthorizedException(AUTH_INVALID)
+        }
+       
     }
 }

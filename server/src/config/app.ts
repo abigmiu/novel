@@ -12,7 +12,8 @@ const appConfig: IAppConfig = {
         signOptions: {
             expiresIn: '30m'
         },
-        secret: '123456',
+        accessTokenSecret: '123456',
+        refreshTokenSecret: '123456789',
         accessTokenExpiresIn: '30m',
         refreshTokenExpiresIn: '7d'
     }

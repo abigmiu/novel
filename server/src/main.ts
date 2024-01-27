@@ -9,7 +9,8 @@ import { AppHttpException } from './filter/httpException.filter';
 async function initSwagger(app: NestExpressApplication, appConfig: ConfigService) {
     const documentBuilder = new DocumentBuilder()
         .setTitle(appConfig.get<string>('swagger.title'))
-        .setVersion(appConfig.get<string>('swagger.version'));
+        .setVersion(appConfig.get<string>('swagger.version'))
+        .addBearerAuth();
 
     const tagValues = Object.values(SWAGGER_TAGS);
     tagValues.forEach((tag) => documentBuilder.addTag(tag));

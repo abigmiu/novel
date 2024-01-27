@@ -1,7 +1,17 @@
 export interface IAccessTokenParams {
-    id: number;
+    userId: number;
 }
 
 export interface IRefreshTokenParams {
-    id: number;
+    userId: number;
+}
+
+export interface IRefreshToken {
+    userId: number;
+    accessToken: string;
+}
+
+export interface ITokenResponse {
+    accessToken: string;
+    refreshToken: string;
 }

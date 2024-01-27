@@ -43,8 +43,8 @@ export class UserService {
 
         const res = await this.userRepo.save(user);
         
-        const accessToken = this.authService.getAccessToken({ id: res.id });
-        const refreshToken = this.authService.getRefreshToken({ id: res.id })
+        const accessToken = this.authService.getAccessToken({ userId: res.id });
+        const refreshToken = this.authService.getRefreshToken({ userId: res.id })
 
         return {
             ...res,

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, ValidationPipe } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import SWAGGER_TAGS from 'src/constant/swagger/tags';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserService } from './user.service';
@@ -9,6 +9,7 @@ import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
 import { PublicApi } from 'src/decorator/pulic.decorator';
 
 @ApiTags(SWAGGER_TAGS.USER)
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
     @Inject()

@@ -8,7 +8,7 @@ export const UserId = createParamDecorator(
     ({ throwError = true }: IUserIdDecorator, ctx: ExecutionContext) => {
         const request = ctx.switchToHttp().getRequest<Request>();
 
-        const userId = (request.user as IAccessTokenParams)?.id;
+        const userId = (request.user as IAccessTokenParams)?.userId;
         if (!userId && throwError) {
             throw new ForbiddenException(EXCEPTION_USER_ID_NOT_PAYLOAD);
         }
