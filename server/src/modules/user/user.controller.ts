@@ -6,8 +6,9 @@ import { UserService } from './user.service';
 import { UpdateUserDto, UpdateUserParamsDto } from './dto/updateUser.dto';
 import { FindUserParamsDto } from './dto/findUser.dto';
 import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
+import { PublicApi } from 'src/decorator/pulic.decorator';
 
-@ApiTags(SWAGGER_TAGS.user)
+@ApiTags(SWAGGER_TAGS.USER)
 @Controller('user')
 export class UserController {
     @Inject()
@@ -20,6 +21,7 @@ export class UserController {
     }
 
     @ApiOperation({ summary: '创建用户' })
+    @PublicApi()
     @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
         return this.userService.createUser(createUserDto);

@@ -1,3 +1,5 @@
+import { JwtModuleOptions, JwtSignOptions } from "@nestjs/jwt";
+
 export interface IAppConfig {
     /** 端口号 */
     port: number;
@@ -12,5 +14,11 @@ export interface IAppConfig {
         title: string;
         /** swagger 版本 */
         version: string;
+    },
+    jwt: {
+        signOptions: JwtModuleOptions['signOptions'],
+        secret: JwtModuleOptions['secret'],
+        accessTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn'],
+        refreshTokenExpiresIn: JwtModuleOptions['signOptions']['expiresIn']
     }
 }

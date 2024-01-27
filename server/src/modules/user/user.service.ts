@@ -5,11 +5,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { EXCEPTION_USER_NOT_FOUND } from 'src/constant/exception/user';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
     @InjectRepository(UserEntity)
     private userRepo: Repository<UserEntity>;
+
+    @Inject()
+    authService: AuthService
 
     async getUser(userId: number) {
         const foundUser = await this.userRepo.findOne({
@@ -38,7 +42,15 @@ export class UserService {
         user.password = password;
 
         const res = await this.userRepo.save(user);
-        return res;
+        
+        const accessToken = this.authService.getAccessToken({ id: res.id });
+        const refreshToken = this.authService.getRefreshToken({ id: res.id })
+
+        return {
+            ...res,
+            accessToken,
+            refreshToken,
+        };
     }
 
     async updateUser(id: number, updateUserDto: UpdateUserDto) {

@@ -8,6 +8,14 @@ const appConfig: IAppConfig = {
         title: '小说网',
         version: '0.0.1',
     },
+    jwt: {
+        signOptions: {
+            expiresIn: '30m'
+        },
+        secret: '123456',
+        accessTokenExpiresIn: '30m',
+        refreshTokenExpiresIn: '7d'
+    }
 };
 
 const beLoadConfig = () => appConfig;

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from './config/app';
 import typeOrmConfig from './config/typeorm';
 import { ClsModule, ClsService } from 'nestjs-cls';
@@ -13,9 +13,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseLogger } from './logger/database.logger';
 import { UserEntity } from './entities/user.entity';
 import { ResponseTransformInterceptor } from './interceptor/responseTransform.interceptor';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AppValidationPipe } from 'src/pipe/validate.pipe';
 import modules from './modules';
+import { JwtModule } from '@nestjs/jwt'
+import { AppAuthGuard } from './guard/auth.guard';
+import { JwtStrategy } from './modules/auth/jwt.strategy';
 
 @Module({
     imports: [
@@ -53,10 +56,21 @@ import modules from './modules';
             }
         }),
         TypeOrmModule.forFeature([UserEntity]),
+        JwtModule.registerAsync({
+            global: true,
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => {
+                return {
+                    signOptions: configService.get('jwt.signOptions'),
+                    secret: configService.get('jwt.secret')
+                }
+            }
+        }),
         ...modules
     ],
     controllers: [AppController],
     providers: [
+        JwtStrategy,
         AppService,
         AppLoggerService,
         {
@@ -67,6 +81,10 @@ import modules from './modules';
             provide: APP_PIPE,
             useClass: AppValidationPipe
         },
+        {
+            provide: APP_GUARD,
+            useClass: AppAuthGuard
+        }
     ],
 })
 export class AppModule { }
