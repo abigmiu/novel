@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -13,7 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseLogger } from './logger/database.logger';
 import { UserEntity } from './entities/user.entity';
 import { ResponseTransformInterceptor } from './interceptor/responseTransform.interceptor';
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE, Reflector } from '@nestjs/core';
 import { AppValidationPipe } from 'src/pipe/validate.pipe';
 import modules from './modules';
 import { JwtModule } from '@nestjs/jwt'
@@ -73,6 +73,16 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
         JwtStrategy,
         AppService,
         AppLoggerService,
+        {
+            provide: APP_INTERCEPTOR,
+            inject: [Reflector],
+            useFactory: (reflector: Reflector) => {
+                console.log('new ClassSerializerInterceptor')
+                return new ClassSerializerInterceptor(reflector, {
+                    excludeExtraneousValues: true
+                })
+            }
+        },
         {
             provide: APP_INTERCEPTOR,
             useClass: ResponseTransformInterceptor,

@@ -8,6 +8,7 @@ import { FindUserParamsDto } from './dto/findUser.dto';
 import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
 import { PublicApi } from 'src/decorator/pulic.decorator';
 import { UserId } from 'src/decorator/auth.decorator';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags(SWAGGER_TAGS.USER)
 @ApiBearerAuth()
@@ -17,8 +18,16 @@ export class UserController {
     private userService: UserService;
 
     @ApiOperation({ summary: '获取用户详情' })
+    @Get('detail')
     findUser(@UserId() userId: number,) {
         return this.userService.getUser(userId);
+    }
+
+    @ApiOperation({ summary: '登录', description: '普通用户登录' })
+    @PublicApi()
+    @Post('login')
+    login(@Body() data: LoginDto) {
+        return this.userService.login(data);
     }
 
     @ApiOperation({ summary: '创建用户' })

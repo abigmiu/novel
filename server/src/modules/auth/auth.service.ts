@@ -4,6 +4,8 @@ import { JwtService } from "@nestjs/jwt";
 import { IAccessTokenParams, IRefreshToken, IRefreshTokenParams, ITokenResponse } from "src/types/auth";
 import { RefreshTokenDto } from "./dto/token.dto";
 import { AUTH_INVALID } from "src/constant/exception/auth";
+import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class AuthService {
@@ -43,5 +45,15 @@ export class AuthService {
             throw new UnauthorizedException(AUTH_INVALID)
         }
        
+
+    }
+
+      /** 密码加密 */
+      encryptPassword(password: string) {
+        return bcrypt.hashSync(password, this.configService.get('passwordSlat'))
+    }
+    
+    comparePassword(password: string, localPassword: string) {
+        return bcrypt.compareSync(password, localPassword);
     }
 }
