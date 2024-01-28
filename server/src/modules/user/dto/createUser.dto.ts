@@ -1,8 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, Length, Validate } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsString, Length  } from 'class-validator';
 
 export class CreateUserDto {
-    @IsString()
+    @IsEmail({}, {
+        message: '邮箱格式不正确',
+    })
     @ApiProperty({ description: '邮箱, 最长50个字符' })
     email: string;
 
@@ -12,7 +14,7 @@ export class CreateUserDto {
 
     @IsString()
     @Length(6, 12, {
-        message: '密码需要6 - 12 位字符'
+        message: '密码需要6 - 12 位字符',
     })
     @ApiProperty({ description: '密码, 6 - 12位' })
     password: string;

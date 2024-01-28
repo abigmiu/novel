@@ -1,6 +1,6 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
-import { Response } from "express";
-import { IResponse } from "src/types/appBase";
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+import { Response } from 'express';
+import { IResponse } from 'src/types/appBase';
 
 @Catch(HttpException)
 export class AppHttpException implements ExceptionFilter {
@@ -9,14 +9,14 @@ export class AppHttpException implements ExceptionFilter {
         const response = ctx.getResponse<Response>();
 
         const statusCode = exception.getStatus();
-        const exceptionMessages = (exception.getResponse() as { message: string[] }).message;
-        let message: string = exception.message || '服务错误';
+        
+        const message: string = exception.message || '服务错误';
         
         const responseBody: IResponse = {
             code: statusCode || 400,
             message: message,
             data: null,
-        }
+        };
 
         response
             .status(200)

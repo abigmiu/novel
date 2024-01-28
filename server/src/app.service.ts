@@ -11,7 +11,7 @@ export class AppService {
     private readonly appLogger: AppLoggerService;
 
     @InjectRepository(UserEntity)
-    private readonly userRepo: Repository<UserEntity>
+    private readonly userRepo: Repository<UserEntity>;
 
     getHello(): string {
         this.appLogger.debug('getHello Service');

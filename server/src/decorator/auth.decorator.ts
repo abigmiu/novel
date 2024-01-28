@@ -1,8 +1,8 @@
-import { ExecutionContext, ForbiddenException, createParamDecorator } from "@nestjs/common";
+import { ExecutionContext, ForbiddenException, createParamDecorator } from '@nestjs/common';
 import { Request } from 'express';
-import { EXCEPTION_USER_ID_NOT_PAYLOAD } from "src/constant/exception/user";
-import { IAccessTokenParams } from "src/types/auth";
-import { IUserIdDecorator } from "src/types/decorator";
+import { EXCEPTION_USER_ID_NOT_PAYLOAD } from 'src/constant/exception/user';
+import { IAccessTokenParams } from 'src/types/auth';
+import { IUserIdDecorator } from 'src/types/decorator';
 
 export const UserId = createParamDecorator(
     ({ throwError } : IUserIdDecorator = {throwError: true}, ctx: ExecutionContext) => {
@@ -14,4 +14,4 @@ export const UserId = createParamDecorator(
         }
         return userId;
     }
-)
+);

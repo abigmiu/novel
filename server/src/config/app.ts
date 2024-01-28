@@ -10,12 +10,12 @@ const appConfig: IAppConfig = {
     },
     jwt: {
         signOptions: {
-            expiresIn: '30m'
+            expiresIn: '30m',
         },
         accessTokenSecret: '123456',
         refreshTokenSecret: '123456789',
         accessTokenExpiresIn: '30m',
-        refreshTokenExpiresIn: '7d'
+        refreshTokenExpiresIn: '7d',
     },
     passwordSlat: 10,
 };

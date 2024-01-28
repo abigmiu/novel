@@ -1,5 +1,5 @@
-import { UserEntity } from "src/entities/user.entity";
-import { DataSourceOptions } from "typeorm";
+import { UserEntity } from 'src/entities/user.entity';
+import { DataSourceOptions } from 'typeorm';
 
 const config: DataSourceOptions = {
     type: 'mysql',

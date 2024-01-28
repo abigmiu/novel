@@ -1,5 +1,5 @@
-import { ClsService } from "nestjs-cls";
-import { Logger, QueryRunner } from "typeorm";
+import { ClsService } from 'nestjs-cls';
+import { Logger, QueryRunner } from 'typeorm';
 import { Logger as WinstonLogger } from 'winston';
 import * as winston from 'winston';
 
@@ -15,16 +15,15 @@ export class DatabaseLogger implements Logger {
                 new winston.transports.File({
                     dirname: 'log', filename: 'database.log',
                 }),
-            ]
-        })
+            ],
+        });
         this.cls = cls;
     }
 
     log() {
-        console.log('typeorm log')
+        console.log('typeorm log');
     }
     logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner) {
-        console.log('logQuery')
         this.logger.debug({
             level: 'debug',
             message: {
@@ -32,20 +31,20 @@ export class DatabaseLogger implements Logger {
                 content: {
                     query,
                     parameters,
-                }
-            }
-        })
+                },
+            },
+        });
     }
     logMigration(message: string, queryRunner?: QueryRunner) {
-        console.log('logMigration')
+        console.log('logMigration');
     }
     logQueryError(error: string | Error, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-        console.log('logQueryError')
+        console.log('logQueryError');
     }
     logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-        console.log('logQuerySlow')
+        console.log('logQuerySlow');
     }
     logSchemaBuild(message: string, queryRunner?: QueryRunner) {
-        console.log('logSchemaBuild')
+        console.log('logSchemaBuild');
     }
 }

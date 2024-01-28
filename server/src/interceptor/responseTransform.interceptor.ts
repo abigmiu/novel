@@ -1,7 +1,7 @@
-import { CallHandler, ExecutionContext, HttpStatus, Inject, Injectable, NestInterceptor } from "@nestjs/common";
-import { Observable, map } from "rxjs";
-import { AppLoggerService } from "src/logger/appLogger.service";
-import { IResponse } from "src/types/appBase";
+import { CallHandler, ExecutionContext, HttpStatus, Inject, Injectable, NestInterceptor } from '@nestjs/common';
+import { Observable, map } from 'rxjs';
+import { AppLoggerService } from 'src/logger/appLogger.service';
+import { IResponse } from 'src/types/appBase';
 import { Request, Response } from 'express';
 
 @Injectable()
@@ -30,11 +30,11 @@ export class ResponseTransformInterceptor implements NestInterceptor {
                     const response: IResponse = {
                         data: data || null,
                         code: 0,
-                        message: 'success'
-                    }
-                    this.appLogger.debug(response)
+                        message: 'success',
+                    };
+                    this.appLogger.debug(response);
                     return response;
                 }
-            ))
+                ));
     }
 }

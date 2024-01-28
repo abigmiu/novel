@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Inject, Param, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Inject,  Post, Put  } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import SWAGGER_TAGS from 'src/constant/swagger/tags';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserService } from './user.service';
-import { UpdateUserDto, UpdateUserParamsDto } from './dto/updateUser.dto';
-import { FindUserParamsDto } from './dto/findUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
+
 import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
 import { PublicApi } from 'src/decorator/pulic.decorator';
 import { UserId } from 'src/decorator/auth.decorator';
@@ -40,7 +40,7 @@ export class UserController {
     @ApiOperation({ summary: '更新用户资料' })
     @Put()
     updateUser(@UserId() userId: number, @Body() updateUserDto: UpdateUserDto) {
-        return this.userService.updateUser(userId, updateUserDto)
+        return this.userService.updateUser(userId, updateUserDto);
     }
 
     @ApiOperation({ summary: '更换邮箱 - 旧邮箱申请更换' })

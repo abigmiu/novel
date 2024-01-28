@@ -12,10 +12,8 @@ export class AppAuthGuard extends AuthGuard('jwt') {
         private reflector: Reflector,
     ) {
         super();
-        console.log('AppAuthGuard');
     }
     canActivate(context: ExecutionContext) {
-        console.log('canActivate');
         const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_API_DECORATOR_KEY, [
             context.getHandler(),
             context.getClass(),
@@ -30,7 +28,7 @@ export class AppAuthGuard extends AuthGuard('jwt') {
             throw new UnauthorizedException(AUTH_UN_LOGIN);
         }
         if (info?.name === 'JsonWebTokenError') {
-            throw new UnauthorizedException(AUTH_ERROR)
+            throw new UnauthorizedException(AUTH_ERROR);
         }
         if (info?.name === 'TokenExpiredError') {
             throw new UnauthorizedException(AUTH_EXPIRED);

@@ -1,4 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 
 @Entity()
 export class CreateAndUpdateEntity {
@@ -14,7 +14,7 @@ export class CreateAndUpdateEntity {
         name: 'update_at',
         type: 'int',
         nullable: false,
-        default: 0
+        default: 0,
     })
     updateAt: number;
 

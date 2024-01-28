@@ -16,7 +16,7 @@ import { ResponseTransformInterceptor } from './interceptor/responseTransform.in
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE, Reflector } from '@nestjs/core';
 import { AppValidationPipe } from 'src/pipe/validate.pipe';
 import modules from './modules';
-import { JwtModule } from '@nestjs/jwt'
+import { JwtModule } from '@nestjs/jwt';
 import { AppAuthGuard } from './guard/auth.guard';
 import { JwtStrategy } from './modules/auth/jwt.strategy';
 
@@ -39,7 +39,6 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
         WinstonModule.forRoot({
             level: 'debug',
             transports: [
-                new winston.transports.Console(),
                 new winston.transports.File({
                     dirname: 'log', filename: 'test.log',
                 }),
@@ -52,8 +51,8 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
                 return {
                     ...typeOrmConfig,
                     logger: new DatabaseLogger(clsService),
-                }
-            }
+                };
+            },
         }),
         TypeOrmModule.forFeature([UserEntity]),
         JwtModule.registerAsync({
@@ -62,11 +61,11 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
             useFactory: (configService: ConfigService) => {
                 return {
                     signOptions: configService.get('jwt.signOptions'),
-                    secret: configService.get('jwt.secret')
-                }
-            }
+                    secret: configService.get('jwt.secret'),
+                };
+            },
         }),
-        ...modules
+        ...modules,
     ],
     controllers: [AppController],
     providers: [
@@ -77,11 +76,10 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
             provide: APP_INTERCEPTOR,
             inject: [Reflector],
             useFactory: (reflector: Reflector) => {
-                console.log('new ClassSerializerInterceptor')
                 return new ClassSerializerInterceptor(reflector, {
-                    excludeExtraneousValues: true
-                })
-            }
+                    excludeExtraneousValues: true,
+                });
+            },
         },
         {
             provide: APP_INTERCEPTOR,
@@ -89,12 +87,12 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
         },
         {
             provide: APP_PIPE,
-            useClass: AppValidationPipe
+            useClass: AppValidationPipe,
         },
         {
             provide: APP_GUARD,
-            useClass: AppAuthGuard
-        }
+            useClass: AppAuthGuard,
+        },
     ],
 })
 export class AppModule { }

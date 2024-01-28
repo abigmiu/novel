@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RefreshTokenDto {
     @ApiProperty({ default: 1, description: '用户 id' })

@@ -1,4 +1,4 @@
-import { JwtModuleOptions, JwtSignOptions } from "@nestjs/jwt";
+import { JwtModuleOptions } from '@nestjs/jwt';
 
 export interface IAppConfig {
     /** 端口号 */

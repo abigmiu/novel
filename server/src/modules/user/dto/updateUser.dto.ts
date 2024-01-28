@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsNumberString, IsOptional, IsString, IsUrl } from 'class-validator';
+import { IsNumber,  IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class UpdateUserDto {
     @ApiProperty({ description: '昵称', required: false, default: '修改后的昵称'  })
