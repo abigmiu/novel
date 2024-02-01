@@ -1,7 +1,7 @@
 import { IAppConfig } from 'src/types/appConfig';
 
 const appConfig: IAppConfig = {
-    port: 3000,
+    port: 3001,
     globalApiPrefix: '/api',
     swagger: {
         path: '/api-doc',

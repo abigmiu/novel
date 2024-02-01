@@ -1,3 +1,5 @@
+import { ChapterEntity } from 'src/entities/chapter.entity';
+import { NovelEntity } from 'src/entities/novel.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import { DataSourceOptions } from 'typeorm';
 
@@ -9,7 +11,7 @@ const config: DataSourceOptions = {
     username: 'root',
     password: '123456',
     database: 'novel',
-    entities: [UserEntity],
+    entities: [UserEntity, ChapterEntity, NovelEntity],
     logging: true,
     // logger: new DatabaseLogger(),
 };
