@@ -9,6 +9,12 @@ export class AppController {
 
     constructor(private readonly appService: AppService) { }
 
+    /**
+     * 测试1
+     * @summary 测试3
+     * @description 测试2
+     * @returns 
+     */
     @Get('test')
     getHello(): string {
         this.appLogger.debug('getHello Controller');

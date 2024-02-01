@@ -2,7 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString } from 'class-validator';
 
 export class ChangeOldEmailDto {
-    @ApiProperty({ description: '旧邮箱' })
+    /**
+     * 旧邮箱
+     * @example 123@abstract.com
+     */
     @IsString()
     email: string;
 
