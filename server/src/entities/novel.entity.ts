@@ -12,6 +12,12 @@ export class NovelEntity extends CreateAndUpdateEntity {
     id: number;
 
     /**
+     * 书本名
+     */
+    @Column()
+    title: string;
+
+    /**
      * 封面图
      */
     @Column({ nullable: true, name: 'cover' })
@@ -26,15 +32,18 @@ export class NovelEntity extends CreateAndUpdateEntity {
     /**
      * 已发布的章节数
      */
-    @Column({ name: 'publish_chapterCount' })
+    @Column({ name: 'publish_chapterCount', default: 0 })
     publishChapterCount: number;
 
     /**
      * 所有的章节数
      */
-    @Column({ name: 'chapter_count' })
+    @Column({ name: 'chapter_count', default: 0 })
     chapterCount: number;
 
     @OneToMany(() => ChapterEntity, chapter => chapter.id)
     chapters: ChapterEntity[]
+
+    @Column({ default: false })
+    deleted: boolean;
 }

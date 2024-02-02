@@ -13,6 +13,12 @@ export class ChapterEntity extends CreateAndUpdateEntity {
     @Column()
     title: string;
 
+    /**
+     * 第几章
+     */
+    @Column()
+    chapterOrder: number;
+
     @ManyToOne(() => NovelEntity)
     novel: NovelEntity;
 
@@ -28,4 +34,7 @@ export class ChapterEntity extends CreateAndUpdateEntity {
      */
     @Column({ default: false })
     published: boolean
+
+    @Column({ default: false })
+    deleted: boolean;
 }
