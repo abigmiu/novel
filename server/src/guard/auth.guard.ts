@@ -13,21 +13,37 @@ export class AppAuthGuard extends AuthGuard('jwt') {
     ) {
         super();
     }
+    
     canActivate(context: ExecutionContext) {
-        
         const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_API_DECORATOR_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
-        console.log('canActive', context, isPublic)
-        if (isPublic) return true;
+        
+        if (isPublic) {
+            // 让user挂在到request上
+            super.canActivate(context);
+            return true;
+        }
         
         return super.canActivate(context);
     }
 
-    handleRequest(err: any, user: any, info: any) {
-        if (err || !user) {
-            throw new UnauthorizedException(AUTH_UN_LOGIN);
+
+    handleRequest(err: any, user: any, info: any, context: ExecutionContext) {
+        const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_API_DECORATOR_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        
+        if (isPublic) {
+            
+            if (user) {
+                return user;
+            } else {
+                // token 过期的时候会返回false
+                return;
+            }
         }
         if (info?.name === 'JsonWebTokenError') {
             throw new UnauthorizedException(AUTH_ERROR);
@@ -35,7 +51,10 @@ export class AppAuthGuard extends AuthGuard('jwt') {
         if (info?.name === 'TokenExpiredError') {
             throw new UnauthorizedException(AUTH_EXPIRED);
         }
-
+        if (err || !user) {
+            throw new UnauthorizedException(AUTH_UN_LOGIN);
+        }
+        
         return user;
     }
 }
