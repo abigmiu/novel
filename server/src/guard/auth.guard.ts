@@ -14,10 +14,12 @@ export class AppAuthGuard extends AuthGuard('jwt') {
         super();
     }
     canActivate(context: ExecutionContext) {
+        
         const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_API_DECORATOR_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
+        console.log('canActive', context, isPublic)
         if (isPublic) return true;
         
         return super.canActivate(context);

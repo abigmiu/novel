@@ -8,6 +8,6 @@ export class LoginDto {
     })
     email: string;
 
-    @ApiProperty({ description: '密码', default: '密码' })
+    @ApiProperty({ description: '密码', default: 'password' })
     password: string;
 }

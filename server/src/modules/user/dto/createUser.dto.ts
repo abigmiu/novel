@@ -5,7 +5,7 @@ export class CreateUserDto {
     @IsEmail({}, {
         message: '邮箱格式不正确',
     })
-    @ApiProperty({ description: '邮箱, 最长50个字符' })
+    @ApiProperty({ description: '邮箱, 最长50个字符', default: 'aaa@aaa.com' })
     email: string;
 
     @IsString()
@@ -16,7 +16,7 @@ export class CreateUserDto {
     @Length(6, 12, {
         message: '密码需要6 - 12 位字符',
     })
-    @ApiProperty({ description: '密码, 6 - 12位' })
+    @ApiProperty({ description: '密码, 6 - 12位', default: 'password' })
     password: string;
 
     @IsString()

@@ -6,7 +6,7 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
 
 import { ChangeOldEmailDto, UpdateEmailDto } from './dto/changeEmail.dto';
-import { PublicApi } from 'src/decorator/pulic.decorator';
+import { PublicApi } from 'src/decorator/public.decorator';
 import { UserId } from 'src/decorator/auth.decorator';
 import { LoginDto } from './dto/login.dto';
 

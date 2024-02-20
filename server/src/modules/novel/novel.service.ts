@@ -4,6 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { NovelEntity } from "src/entities/novel.entity";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/entities/user.entity";
+import { EXCEPTION_QUERY_FAIL } from "src/constant/exception/common";
 
 @Injectable()
 export class NovelService {
@@ -29,10 +30,29 @@ export class NovelService {
         novel.creator = user;
 
         try {
-            await this.novelRepo.save(novel)
+            const res = await this.novelRepo.save(novel);
+            return res;
         } catch (e) {
             console.error('e');
             throw new BadRequestException()
         }
+    }
+
+    async queryUserAllNovel(userId: number) {
+        const user = new UserEntity();
+        user.id = userId;
+
+        try {
+            const res = await this.novelRepo.find({
+                where: {
+                    creator: user,
+                }
+            })
+    
+            return res || [];
+        } catch {
+            throw new BadRequestException(EXCEPTION_QUERY_FAIL)
+        }
+        
     }
 }

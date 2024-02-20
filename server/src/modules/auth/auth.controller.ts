@@ -3,7 +3,7 @@ import SWAGGER_TAGS from 'src/constant/swagger/tags';
 import { RefreshTokenDto } from './dto/token.dto';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PublicApi } from 'src/decorator/pulic.decorator';
+import { PublicApi } from 'src/decorator/public.decorator';
 
 @ApiTags(SWAGGER_TAGS.AUTH)
 @Controller('auth')
