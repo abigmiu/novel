@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Inject, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Post, Query } from "@nestjs/common";
 import { NovelService } from "./novel.service";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import SWAGGER_TAGS from "src/constant/swagger/tags";
 import { UserId } from "src/decorator/auth.decorator";
 import { CreateNovelDto } from "./dto/createNovel.dto";
 import { PublicApi } from "src/decorator/public.decorator";
-import { QueryUserNovelParams } from "./dto/queryNovel.dto";
+import { QueryUserNovelParams,  UserNovelPageQueryDto } from "./dto/queryNovel.dto";
 
 @ApiTags(SWAGGER_TAGS.NOVEL)
 @Controller('novel')
@@ -35,6 +35,15 @@ export class NovelController {
     getNovelList(@UserId() userId: number) {
         return this.novelService.queryUserAllNovel(userId)
     }
+
+    
+    @ApiOperation({ summary: '分页查找用户的书本' })
+    @PublicApi()
+    @Get('page')
+    getNovelPage(@Query() query: UserNovelPageQueryDto, @UserId({ throwError: false }) userId?: number) {
+        return this.novelService.queryUserNovelByPage(query);
+    }
+
     /**
      * 查询某个用户的所有书本
      * @param params 

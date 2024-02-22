@@ -17,7 +17,7 @@ export class ChapterEntity extends CreateAndUpdateEntity {
      * 第几章
      */
     @Column()
-    chapterOrder: number;
+    round: number;
 
     @ManyToOne(() => NovelEntity)
     novel: NovelEntity;

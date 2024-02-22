@@ -8,12 +8,12 @@ import { Request, Response } from 'express';
 export class ResponseTransformInterceptor implements NestInterceptor {
     @Inject()
     private readonly appLogger: AppLoggerService;
-    
+
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
         const httpCtx = context.switchToHttp();
         const request = httpCtx.getRequest<Request>();
         const response = httpCtx.getResponse<Response>();
-        
+
         if (request.method.toUpperCase() === 'GET') {
             response.statusCode = HttpStatus.OK;
             response.setHeader('Cache-Control', 'no-cache');
@@ -27,6 +27,7 @@ export class ResponseTransformInterceptor implements NestInterceptor {
             .handle()
             .pipe(
                 map(data => {
+                    console.log('response Data', data);
                     const response: IResponse = {
                         data: data || null,
                         code: 0,
