@@ -5,10 +5,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from './config/app';
 import typeOrmConfig from './config/typeorm';
 import { ClsModule, ClsService } from 'nestjs-cls';
-import { WinstonModule } from 'nest-winston';
+import { WinstonLogger, WinstonModule } from 'nest-winston';
 import { v4 as uuidV4 } from 'uuid';
 import { AppLoggerService } from './logger/appLogger.service';
 import * as winston from 'winston';
+import 'winston-daily-rotate-file';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseLogger } from './logger/database.logger';
 import { UserEntity } from './entities/user.entity';
@@ -39,13 +40,25 @@ import { JwtStrategy } from './modules/auth/jwt.strategy';
         WinstonModule.forRoot({
             level: 'debug',
             transports: [
-                new winston.transports.File({
-                    dirname: 'log', filename: 'test.log',
-                }),
+                // new winston.transports.File({
+                //     dirname: 'log', filename: 'test.log',
+                // }),
+                new winston.transports.DailyRotateFile({
+                    dirname: 'logs',
+                    filename: '%DATE%.log',
+                    datePattern: 'YYYY-MM-DD', // 文件夹按照年/月创建
+                    maxSize: '20m',
+                    format: winston.format.combine(
+                        winston.format.timestamp({
+                            format: 'YYYY-MM-DD hh:mm:ss',
+                        }),
+                        winston.format.json(),
+                    )
+                })
             ],
         }),
         TypeOrmModule.forRootAsync({
-            imports: [ClsModule],
+            imports: [ClsModule, WinstonModule],
             inject: [ClsService],
             useFactory(clsService: ClsService) {
                 return {

@@ -12,9 +12,18 @@ export class DatabaseLogger implements Logger {
         this.logger = winston.createLogger({
             level: 'debug',
             transports: [
-                new winston.transports.File({
-                    dirname: 'log', filename: 'database.log',
-                }),
+                new winston.transports.DailyRotateFile({
+                    dirname: 'logs/dataBase',
+                    filename: '%DATE%.log',
+                    datePattern: 'YYYY-MM-DD',
+                    maxSize: '20m',
+                    format: winston.format.combine(
+                        winston.format.timestamp({
+                            format: 'YYYY-MM-DD hh:mm:ss:sssZ',
+                        }),
+                        winston.format.json(),
+                    )
+                })
             ],
         });
         this.cls = cls;
