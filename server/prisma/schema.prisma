@@ -13,34 +13,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Creator {
+model User {
   id Int @id @default(autoincrement())
-  createAt Int
-  updateAt Int
+  createdAt Int // 创建日期
+  updatedAt Int // 更新日期
 
   nickname String // 用户名
-  avatar String
-  email String
+  avatar String // 头像
+  email String // 邮箱
+  password String // 密码
+  status Int // 用户状态
+  freeze Boolean @default(false) // 是否冻结
+
+  novels Novel[]
 }
 
 model Novel {
   id Int @id @default(autoincrement())
-  createAt Int
-  updateAt Int
+  createdAt Int // 创建日期
+  updatedAt Int // 更新日期
+  cover String? // 头像
+  title String // 小说名称
+  freeze Boolean @default(false) // 是否冻结
 
-  cover String?
+  chapters Chapter[] // 章节
 
-  title String
+  userId Int
+  creator User @relation(fields: [userId], references: [id])
 
-  chapters Chapter[]
+  chapterCount Int // 所有的章节数
+  publishedChapterCount Int // 已经发布的章节数
 }
 
 model Chapter {
   id    Int @id @default(autoincrement())
-  title String
-  round Int 
+  title String // 章节标题
+  round Int // 第多少回
 
-  
   novel Novel @relation(fields: [novelId], references: [id])
-  novelId Int
+  novelId Int // 所属小说
+
+  freeze Boolean @default(false) // 是否冻结
 }
